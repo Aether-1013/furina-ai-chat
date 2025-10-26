@@ -1,6 +1,6 @@
 # Furina AI Chat - Genshin Impact Character Chatbot
 
-An AI chat web application based on the Genshin Impact character Furina, featuring intelligent conversation powered by SiliconFlow API.
+An AI chat web application of the Genshin Impact character Furina, featuring intelligent conversation powered by SiliconFlow API.
 
 ## 🌐 Online Demo
 
