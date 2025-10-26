@@ -4,7 +4,7 @@ An AI chat web application of the Genshin Impact character Furina, featuring int
 
 ## 🌐 Online Demo
 
-**[👉 Click here to try Furina AI Chat online](https://aether-1013.github.io/-furina-ai-chat/)**
+**[👉 Click here to try Furina AI Chat online](https://aether-1013.github.io/furina-ai-chat/)**
 
 Currently developing a website with chat history and emoji features, will be open sourced soon.
 
