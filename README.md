@@ -1,6 +1,6 @@
 # 芙宁娜 AI 聊天 - Furina AI Chat
 
-一个基于原神角色芙宁娜的AI聊天网页应用，使用SiliconFlow API实现智能对话功能。
+一个原神角色芙宁娜的AI聊天网页应用，使用SiliconFlow API实现智能对话功能。
 
 ## 🌐 在线使用
 
