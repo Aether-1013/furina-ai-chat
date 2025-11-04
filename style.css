@@ -18,7 +18,7 @@ body {
     overflow: hidden;
 }
 
-/* 聊天容器 - 优化整体外观 */
+/* 聊天容器 - 优化整体外观并确保正确的层叠环境 */
 .chat-container {
     width: 100%;
     max-width: 520px;
@@ -33,6 +33,9 @@ body {
     border: 1px solid #e3f2fd;
     position: relative;
     transition: transform 0.3s ease;
+    /* 关键：为整个聊天容器创建层叠上下文 */
+    transform: translateZ(0);
+    z-index: 1;
 }
 
 .chat-container:hover {
@@ -53,6 +56,16 @@ body {
     box-shadow: 0 3px 12px rgba(25, 118, 210, 0.25);
     z-index: 10;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    /* 关键修复：确保父元素创建最强的层叠上下文 */
+    transform: translateZ(0);
+    will-change: transform;
+    /* Chrome特定：强制创建新的合成层 */
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* 确保在容器中的正确层叠顺序 */
+    isolation: isolate;
 }
 
 @keyframes gradientShift {
@@ -65,6 +78,8 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
+    position: relative;
+    z-index: 2;
 }
 
 .header-avatar {
@@ -130,6 +145,84 @@ body {
     gap: 10px;
 }
 
+/* 简化的水印样式 - 修复毛玻璃效果 */
+.header-watermark {
+    /* 基础定位和布局 - 垂直居中 */
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+    
+    /* 使用flexbox布局确保内容居中对齐 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    
+    /* 文字样式 */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    
+    /* 基础背景 - 支持不支持backdrop-filter的浏览器 */
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* 阴影效果 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+    /* 平滑过渡 */
+    transition: all 0.3s ease;
+    
+    /* 确保层叠顺序 */
+    z-index: 100;
+}
+
+/* 浏览器支持backdrop-filter时的毛玻璃效果 */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+    .header-watermark {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+}
+
+/* 悬停效果 - 保持垂直居中 */
+.header-watermark:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 点击效果 - 保持垂直居中 */
+.header-watermark:active {
+    transform: translateY(-50%) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+/* GitHub图标样式 */
+.github-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0; /* 防止图标被压缩 */
+    /* 移除margin-left，使用父容器的gap属性控制间距 */
+}
+
+.header-watermark:hover .github-icon {
+    opacity: 1;
+}
+
+/* 移除旧的复杂样式 - 使用新的简化版本 */
+
 
 
 /* 消息区域 - 修复滚动和布局问题 */
@@ -142,6 +235,7 @@ body {
     gap: 15px;
     background: #f5fbff;
     min-height: 0; /* 修复flex子项高度溢出问题 */
+    position: relative; /* 为水印定位 */
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -199,6 +293,7 @@ body {
 .message.assistant {
     flex-direction: row;
     justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .message.system {
@@ -234,10 +329,13 @@ body {
     font-size: 15px;
     line-height: 1.55;
     word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
     position: relative;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: all 0.2s ease;
     margin: 0;
+    min-width: 0;
 }
 
 .message p:hover {
@@ -250,6 +348,8 @@ body {
     color: white;
     text-align: right;
     border-top-right-radius: 4px;
+    max-width: calc(100% - 90px);
+    margin-left: auto;
 }
 
 .message.assistant p {
@@ -257,6 +357,8 @@ body {
     color: #1565c0;
     border: 1px solid #e3f2fd;
     border-top-left-radius: 4px;
+    max-width: calc(100% - 90px);
+    margin-right: auto;
 }
 
 .message.system p {
@@ -287,6 +389,87 @@ body {
     margin-left: 0;
     margin-right: 48px;
 }
+
+/* 表情包样式 */
+.expression-image {
+    width: 103px;
+    height: 103px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 5px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.expression-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 表情包独立消息样式 */
+.message.expression-message {
+    align-items: flex-start;
+    margin: 15px 0;
+}
+
+.message.expression-message .message-content {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    max-width: 103px;
+}
+
+.message.expression-message .message-content .expression-image {
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.message.expression-message .message-content .expression-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 确保表情包消息的头像正确对齐 */
+.message.expression-message.assistant .message-avatar {
+    margin-right: 10px;
+}
+
+.message.expression-message.user .message-avatar {
+    margin-left: 10px;
+    order: 2;
+}
+
+.message.expression-message.user .message-content {
+    order: 1;
+    margin-right: auto;
+}
+
+/* 消息中的表情包容器 */
+.message .expression-image {
+    display: block;
+    margin: 8px 0;
+}
+
+.message.assistant .expression-image {
+    margin-left: 50px;
+    width: 103px;
+    height: 103px;
+    object-fit: cover;
+    margin: 5px;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.message.user .expression-image {
+    margin-right: 50px;
+}
+
+
 
 /* 输入指示器 - 优化样式和动画 */
 .typing-indicator {
@@ -470,12 +653,27 @@ body {
     }
     
     .header-avatar {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
     }
     
     .header-title {
         font-size: 18px;
+    }
+    
+    /* 移动端头部水印调整 */
+    .header-watermark {
+        padding: 4px 8px;
+        gap: 4px;
+    }
+    
+    .header-watermark .watermark-text {
+        font-size: 10px;
+    }
+    
+    .header-watermark .watermark-icon {
+        width: 12px;
+        height: 12px;
     }
     
     .chat-messages {
@@ -506,8 +704,8 @@ body {
     }
     
     .send-button {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
     }
     
     .typing-indicator {
