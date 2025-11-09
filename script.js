@@ -1,10 +1,27 @@
+/**
+ * 芙宁娜 AI 聊天 - JavaScript 主文件
+ * 
+ * 版权所有 (C) 2025 Aether-1013
+ * 
+ * 本程序是自由软件：你可以再发布之和/或修改它，
+ * 依照由自由软件基金会发布的 GNU 通用公共许可证第三版，
+ * 或（根据您的选择）任何更新的版本。
+ * 
+ * 本程序基于这样的事实而发布：希望它有用，
+ * 但没有任何担保；甚至没有适销性或特定用途适用性的暗示保证。
+ * 更多详情请参见 GNU 通用公共许可证。
+ * 
+ * 您应该已经收到了 GNU 通用公共许可证的副本，
+ * 如果没有，请参见 <https://www.gnu.org/licenses/>。
+ */
+
 // 配置信息
 const CONFIG = {
     API_KEY: 'sk-hkwvdwwcwuupdpkemdvdptxauhschstwjawmytljhqokoosr',
     API_URL: 'https://api.siliconflow.cn/v1/chat/completions',
     MODEL: 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B',
-    MAX_TOKENS: 1500,
-    TEMPERATURE: 0.8
+    MAX_TOKENS: 3700,
+    TEMPERATURE: 0.7
 };
 
 // 表情包配置

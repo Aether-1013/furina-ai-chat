@@ -1,3 +1,22 @@
+<!--
+  Furina AI Chat - English Documentation
+  
+  Copyright (C) 2025 Aether-1013
+  
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
 # Furina AI Chat - Genshin Impact Character Chatbot
 
 An AI chat web application of the Genshin Impact character Furina, featuring intelligent conversation powered by SiliconFlow API.
@@ -256,6 +275,15 @@ A: Adjust width/height in `.expression-image` class in `style.css`:
 
 ## 📄 License
 
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+
+### GPL v3.0 License Summary
+- **Freedom to Use**: You are free to use, copy, and modify this software
+- **Open Source**: Any derivative works must also be open source under GPL v3.0
+- **Copyright Notice**: You must retain the original copyright notice
+- **No Warranty**: Software is provided "as is" without any warranty
+
+### Additional Notice
 This project is for educational and entertainment purposes only, based on the Genshin Impact character Furina.
 
 ## 🤝 Contributing
