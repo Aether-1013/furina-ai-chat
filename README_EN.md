@@ -292,7 +292,7 @@ Feel free to submit Issues and Pull Requests to improve the project!
 
 ## 📋 Version History
 
-### v2.1.0 (2025-11-04)
+### v2.1.0 (2025-01-04)
 - **New**: 🎭 Expression System
   - Multiple Furina expressions (happy, sad, tsundere, wronged, etc.)
   - Smart expression triggering mechanism
@@ -302,6 +302,8 @@ Feel free to submit Issues and Pull Requests to improve the project!
   - Hover animation effects
 - **Improved**: Enhanced message display logic for richer content formats
 - **Fixed**: Improved user experience and interface stability
+- **Updated**: Streamlined project structure, removed unnecessary test and build files
+- **Updated**: Enhanced documentation with detailed expression system usage guide
 
 ### v2.0.0 (Previous Version)
 - **New**: Basic AI chat functionality
