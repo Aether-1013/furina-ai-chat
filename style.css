@@ -162,12 +162,55 @@ body {
     gap: 10px;
 }
 
+/* 清空聊天记录按钮样式 */
+.clear-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 2;
+}
+
+.clear-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.clear-button:active {
+    transform: scale(0.98);
+    transition-duration: 0.1s;
+}
+
+.clear-button svg {
+    stroke: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.clear-button:hover svg {
+    stroke: #ffffff;
+    transform: rotate(15deg);
+}
+
 /* 简化的水印样式 - 修复毛玻璃效果 */
 .header-watermark {
-    /* 基础定位和布局 - 垂直居中 */
+    /* 基础定位和布局 - 垂直居中，调整到清除按钮左侧 */
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 120px; /* 调整为120px */
     transform: translateY(-50%);
     padding: 8px 16px;
     border-radius: 20px;
@@ -229,13 +272,15 @@ body {
     width: 16px;
     height: 16px;
     opacity: 0.8;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.5s ease;
     flex-shrink: 0; /* 防止图标被压缩 */
     /* 移除margin-left，使用父容器的gap属性控制间距 */
 }
 
 .header-watermark:hover .github-icon {
     opacity: 1;
+    transform: rotate(360deg);
+    transition: opacity 0.2s ease, transform 0.5s ease;
 }
 
 /* 移除旧的复杂样式 - 使用新的简化版本 */

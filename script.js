@@ -100,30 +100,133 @@ function initWatermark() {
     console.log('✅ 水印事件绑定完成');
 }
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', initWatermark);
+// 全局变量声明
+let elements = null;
+let messageHistory = [];
 
-// DOM元素
-const elements = {
-    messages: document.getElementById('chatMessages'),
-    userInput: document.getElementById('messageInput'),
-    sendButton: document.getElementById('sendButton'),
-    typingIndicator: document.getElementById('typingIndicator')
-};
+// 聊天记录存储键名
+const CHAT_HISTORY_KEY = 'furina_chat_history';
 
-// 初始化欢迎消息
+// 显示历史聊天记录
+function displayChatHistory() {
+    if (messageHistory.length > 0) {
+        console.log('显示历史聊天记录，共', messageHistory.length, '条');
+        messageHistory.forEach(message => {
+            addMessage(message.content, message.role);
+        });
+    } else {
+        console.log('没有历史聊天记录');
+    }
+}
 function initializeChat() {
     // 不添加任何自动欢迎消息，等待用户主动发起对话
 }
 
-// 消息历史
-let messageHistory = [];
+// 保存聊天记录到localStorage
+function saveChatHistory() {
+    try {
+        const chatData = {
+            messages: messageHistory,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatData));
+        console.log('聊天记录已保存到localStorage');
+    } catch (error) {
+        console.error('保存聊天记录失败:', error);
+    }
+}
+
+// 从localStorage加载聊天记录
+function loadChatHistory() {
+    try {
+        const savedData = localStorage.getItem(CHAT_HISTORY_KEY);
+        if (savedData) {
+            const chatData = JSON.parse(savedData);
+            
+            // 兼容旧格式（直接存储的数组）和新格式（对象包含messages数组）
+            let messages = [];
+            if (Array.isArray(chatData)) {
+                // 旧格式：直接是消息数组
+                messages = chatData;
+            } else if (chatData.messages && Array.isArray(chatData.messages)) {
+                // 新格式：对象包含messages数组
+                messages = chatData.messages;
+            }
+            
+            if (messages.length > 0) {
+                console.log('从localStorage加载了', messages.length, '条聊天记录');
+                return messages;
+            }
+        }
+        console.log('没有找到保存的聊天记录');
+        return [];
+    } catch (error) {
+        console.error('加载聊天记录失败:', error);
+        return [];
+    }
+}
+
+// 清空聊天记录
+function clearChatHistory() {
+    try {
+        localStorage.removeItem(CHAT_HISTORY_KEY);
+        messageHistory = [];
+        
+        // 清空页面上的消息显示
+        if (elements.messages) {
+            elements.messages.innerHTML = '';
+        }
+        
+        console.log('聊天记录已清空');
+        return true;
+    } catch (error) {
+        console.error('清空聊天记录失败:', error);
+        return false;
+    }
+}
 
 // 初始化
 function init() {
+    console.log('开始初始化...');
+    
+    // 首先初始化DOM元素引用
+    elements = {
+        messages: document.getElementById('chatMessages'),
+        userInput: document.getElementById('messageInput'),
+        sendButton: document.getElementById('sendButton'),
+        typingIndicator: document.getElementById('typingIndicator')
+    };
+    
+    console.log('DOM元素初始化完成:', {
+        messages: !!elements.messages,
+        userInput: !!elements.userInput,
+        sendButton: !!elements.sendButton,
+        typingIndicator: !!elements.typingIndicator
+    });
+    
+    // 检查必要的DOM元素是否存在
+    if (!elements.messages || !elements.userInput || !elements.sendButton) {
+        console.error('必要的DOM元素未找到，初始化失败');
+        return;
+    }
+    
+    // 设置事件监听器
     setupEventListeners();
-    initializeChat(); // 初始化欢迎消息
+    
+    // 加载历史聊天记录
+    messageHistory = loadChatHistory();
+    console.log('加载了', messageHistory.length, '条历史消息');
+    
+    // 显示历史聊天记录
+    displayChatHistory();
+    
+    // 初始化聊天
+    initializeChat();
+    
+    // 聚焦输入框
     elements.userInput.focus();
+    
+    console.log('初始化完成！');
 }
 
 // 设置事件监听器
@@ -135,6 +238,16 @@ function setupEventListeners() {
             sendMessage();
         }
     });
+    
+    // 清空聊天记录按钮事件
+    const clearButton = document.getElementById('clearChatButton');
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            if (confirm('确定要清空所有聊天记录吗？此操作不可恢复。')) {
+                clearChatHistory();
+            }
+        });
+    }
 }
 
 // 发送消息
@@ -276,9 +389,12 @@ function addMessage(content, sender) {
     // 更新消息历史
     messageHistory.push({ role: sender, content: content });
     
+    // 保存聊天记录到localStorage
+    saveChatHistory();
+    
     // 限制历史长度
-    if (messageHistory.length > 10) {
-        messageHistory = messageHistory.slice(-10);
+    if (messageHistory.length > 50) {
+        messageHistory = messageHistory.slice(-50);
     }
 }
 
