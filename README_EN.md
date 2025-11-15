@@ -102,6 +102,33 @@ Furina automatically recognizes these shortcuts and converts them to correspondi
 - **Animation Effects**: Subtle hover effects for better user experience
 - **Lazy Loading**: Optimized page loading performance
 
+### 💾 Local Chat History Storage (New)
+Furina AI Chat now includes a comprehensive local storage system to save your conversation history, ensuring you never lose your precious chats with Furina!
+
+#### Storage Features
+- **Automatic Saving**: Every message is automatically saved to browser's local storage
+- **Persistent Storage**: Chat history remains available even after closing the browser
+- **Smart Loading**: Previous conversations are automatically restored when you revisit
+- **Capacity Management**: Stores up to 50 most recent messages to optimize performance
+- **One-Click Clear**: Easy option to clear all chat history when needed
+
+#### Technical Implementation Details
+- **Storage Format**: JSON format for efficient data serialization
+- **Browser Compatibility**: Uses localStorage API with fallback mechanisms
+- **Error Handling**: Comprehensive error handling for storage failures
+- **Performance Optimized**: Minimal impact on chat responsiveness
+
+#### Usage Instructions
+1. **Automatic Operation**: No manual setup required - everything works automatically
+2. **History Persistence**: Your chat history is preserved between sessions
+3. **Clear History**: Click the clear button in the interface to remove all saved messages
+4. **Privacy First**: All data is stored locally in your browser only
+
+#### Privacy Notice
+- All chat history is stored locally in your browser and never transmitted to any servers
+- You have full control over your data with the ability to clear it at any time
+- No third-party services have access to your conversation history
+
 ## 🔧 Configuration
 
 ### API Setup
@@ -300,6 +327,12 @@ Feel free to submit Issues and Pull Requests to improve the project!
   - Mixed message support (text + expressions)
   - Responsive expression layout
   - Hover animation effects
+- **New**: 💾 Local Chat History Storage
+  - Automatic saving of chat history to browser's local storage
+  - Automatic restoration of previous conversations on page load
+  - Smart capacity management (stores up to 50 most recent messages)
+  - One-click clear chat history functionality
+  - Comprehensive error handling and compatibility design
 - **Improved**: Enhanced message display logic for richer content formats
 - **Fixed**: Improved user experience and interface stability
 - **Updated**: Streamlined project structure, removed unnecessary test and build files
