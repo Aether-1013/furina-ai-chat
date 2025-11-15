@@ -319,7 +319,7 @@ Feel free to submit Issues and Pull Requests to improve the project!
 
 ## 📋 Version History
 
-### v2.1.0 (2025-01-04)
+### v2.1.0 (2025-11-15)
 - **New**: 🎭 Expression System
   - Multiple Furina expressions (happy, sad, tsundere, wronged, etc.)
   - Smart expression triggering mechanism
